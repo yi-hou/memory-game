@@ -2,12 +2,28 @@
     <div class="row">
        <div class="col">
          <h1 id="index-page">Join a Game</h1>
-           <p><a href="/game/demo">Join</a></p>
+           <script>
+            function joinGame() {
+              var game_name = document.getElementById("game-name").value;
+              self.location='/game/'+ game_name;
+            }
+            </script>
+          <div class="row" id="new-game">
+            <div class="col-6">
+              <p>
+               Please input a game name and click "join" to play!
+              </p>
+              <p>
+                <input id="game-name">
+                <button class="btn btn-primary" onClick="joinGame()" type="submit">Join</button>
+             </p>
+            </div>
+           </div>
        </div>
     </div>
-
-
-
+    
+  
+   
         
 	  	
 	  

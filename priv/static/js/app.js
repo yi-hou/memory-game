@@ -41264,12 +41264,14 @@ var MemoryGame = function (_React$Component) {
       selectedTile1: null,
       selectedTile2: null
     };
-
+    //join the channel
     _this.channel.join().receive("ok", _this.gotView.bind(_this)).receive("error", function (resp) {
       console.log("Unable to join", resp);
     });
     return _this;
   }
+  //get the view of the current state
+
 
   _createClass(MemoryGame, [{
     key: 'gotView',
@@ -41277,12 +41279,16 @@ var MemoryGame = function (_React$Component) {
       console.log("New view", view);
       this.setState(view.game);
     }
+    //after clicking reset button, trigger new() in game.ex to reset the game
+
   }, {
     key: 'sendReset',
     value: function sendReset() {
       console.log("reset works!");
       this.channel.push("new").receive("ok", this.gotView.bind(this));
     }
+    //after clicking on the tile, send the tile information to the server side
+
   }, {
     key: 'sendClick',
     value: function sendClick(tile) {
@@ -41291,6 +41297,9 @@ var MemoryGame = function (_React$Component) {
 
       console.log(this.state.tiles);
     }
+    //after clicking two tiles, compare the information of the two tiles in the server-side
+    //to see if they are matched or not.
+
   }, {
     key: 'sendCheckMatch',
     value: function sendCheckMatch(view) {
@@ -41301,10 +41310,13 @@ var MemoryGame = function (_React$Component) {
         _this2.channel.push("checkMatch").receive("ok", _this2.gotView.bind(_this2));
       }, 1000);
     }
+
+    // render the state image
+
   }, {
     key: 'render',
     value: function render() {
-
+      // if all tiles are matched, render the winner image
       if (this.state.matchedTiles == 8) {
         return _react2.default.createElement(
           'div',
@@ -41352,6 +41364,8 @@ var MemoryGame = function (_React$Component) {
 
   return MemoryGame;
 }(_react2.default.Component);
+//render 4*4 grid tiles 
+
 
 function RenderTiles(params) {
   var state = params.state;
@@ -41383,7 +41397,7 @@ function RenderTiles(params) {
     tiles
   );
 }
-
+//shows the clicks number on the screen
 function TrackClicks(params) {
   var state = params.state;
 
@@ -41399,6 +41413,7 @@ function TrackClicks(params) {
   );
 }
 
+//Reset button
 function Reset(params) {
   var state = params.state;
 
