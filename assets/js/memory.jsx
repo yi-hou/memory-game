@@ -5,7 +5,7 @@ import { range } from 'underscore';
 
 
 export default function game_init(root, channel) {
-  ReactDOM.render(<MemoryGame channel={channel} />, root);
+  ReactDOM.render(<MemoryGame channel={channel}/>, root);
 }
 
 
@@ -20,22 +20,22 @@ class MemoryGame extends React.Component {
     selectedTile1: null,
     selectedTile2: null,
     };
-
+    //join the channel
     this.channel.join().receive("ok", this.gotView.bind(this))
     .receive("error", resp => { console.log("Unable to join", resp)});
   }
- 
+ //get the view of the current state
  gotView(view) {
   console.log("New view", view);
   this.setState(view.game);
  }
- 
+ //after clicking reset button, trigger new() in game.ex to reset the game
   sendReset() {
     console.log("reset works!");
     this.channel.push("new")
     .receive("ok", this.gotView.bind(this));
   }
-  
+  //after clicking on the tile, send the tile information to the server side
   sendClick(tile) {
     console.log("click works!");
     this.channel.push("clickedOnTile", { tile: tile })
@@ -44,15 +44,16 @@ class MemoryGame extends React.Component {
     
     console.log(this.state.tiles);
  }
-  
+  //after clicking two tiles, compare the information of the two tiles in the server-side
+  //to see if they are matched or not.
   sendCheckMatch(view) {
     this.gotView(view);
     setTimeout(()=>{this.channel.push("checkMatch").receive("ok", this.gotView.bind(this))}, 1000);
   }
 
-
+  // render the state image
   render() {
-
+  // if all tiles are matched, render the winner image
     if(this.state.matchedTiles == 8){
       return (
         <div index ="over">
@@ -69,6 +70,7 @@ class MemoryGame extends React.Component {
       )
       
     }
+
     else{
     return (
       <div>
@@ -87,7 +89,7 @@ class MemoryGame extends React.Component {
     } 
   }
 }
-
+//render 4*4 grid tiles 
 function RenderTiles(params) {
       let state = params.state
 
@@ -116,7 +118,7 @@ function RenderTiles(params) {
         </div>
         )
 }
-
+//shows the clicks number on the screen
 function TrackClicks(params) {
   let state = params.state;
 
@@ -126,7 +128,7 @@ function TrackClicks(params) {
   </div>);
 }
 
-
+//Reset button
 function Reset(params) {
   let state = params.state;
 

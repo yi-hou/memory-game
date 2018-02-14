@@ -41192,7 +41192,7 @@ function start() {
 	}
 
 	if (document.getElementById('index-page')) {
-		form_init();
+		//form_init();
 	}
 } // Brunch automatically concatenates all files in your
 // watched paths. Those paths can be configured at
